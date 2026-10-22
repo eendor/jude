@@ -1,0 +1,33 @@
+Credits
+
+Photos, videos, thumbnails and designs: Jude Vincent C. Gonzaga.
+
+Fonts (SIL Open Font License 1.1, licence texts in assets/fonts):
+  League Spartan, Poppins, Anton (favicon and hero lettering), Imbue (hero lettering).
+
+Icons:
+  Instagram, Facebook, WhatsApp, Telegram: Simple Icons (CC0 1.0).
+  Adobe Lightroom and OpenAI logos: SVG Logos (CC0 1.0).
+  Canva logo: CoreUI Brands (CC0 1.0).
+  CapCut logo: theSVG, MIT License, Copyright (c) 2025 thesvg.org.
+
+  The tool logos are trademarks of their owners and are shown only to name the tools Jude uses.
+
+Original artwork for this site: paper texture, torn photo frame, binder clip.
+
+MIT License (theSVG)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+and associated documentation files (the "Software"), to deal in the Software without
+restriction, including without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or
+substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

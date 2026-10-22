@@ -1,0 +1,475 @@
+/* Jude Gonzaga | Portfolio
+
+   Wider than 760px: every section is a 1366 x 768 "stage" scaled to the window width,
+   and each item is placed with --x, --y, --w and --h (in stage units) from the HTML.
+   760px and narrower: the same items flow in one column. */
+
+@font-face {
+  font-family: "League Spartan";
+  src: url("assets/fonts/league-spartan-bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("assets/fonts/poppins-regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --navy: #182658;
+  --beige: #fff3e0;
+  --spartan: "League Spartan", "Trebuchet MS", Arial, sans-serif;
+  --poppins: "Poppins", "Segoe UI", Arial, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  background: var(--beige) url("assets/img/paper.png") 0 0 / 512px 512px;
+  color: var(--navy);
+  font-family: var(--poppins);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+body { margin: 0; }
+h1, h2, h3, p, ul, figure { margin: 0; padding: 0; font: inherit; }
+ul { list-style: none; }
+img, video { display: block; max-width: 100%; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--navy); outline-offset: 3px; }
+
+main {
+  container-type: inline-size;
+  overflow-x: clip;
+}
+
+/* Hero. As in the original, the paper grain lies over the band, the title and the
+   service boxes, but under Jude's photo and name. */
+.hero {
+  position: relative;
+  background: var(--beige);
+}
+
+.grain {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: url("assets/img/paper.png") 0 0 / 512px 512px;
+  pointer-events: none;
+}
+
+.front { z-index: 2; }
+
+/* Text */
+.heading {
+  --fs: 41.3;
+  --ls: .435em;
+  font-family: var(--spartan);
+  font-weight: 700;
+  line-height: 1.11;
+  letter-spacing: var(--ls);
+  padding-left: var(--ls); /* letter-spacing also adds space after the last letter */
+  text-align: center;
+}
+
+.about-text {
+  --fs: 26.7;
+  line-height: 1.3;
+  text-align: center;
+}
+
+.about-text p + p { margin-top: 1.3em; }
+
+.services li,
+.button,
+.pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--navy);
+  color: var(--beige);
+  font-family: var(--spartan);
+  font-weight: 700;
+  line-height: 1.11;
+  text-align: center;
+}
+
+.services li { --fs: 39.4; }
+.button { --fs: 27.9; border-radius: .36em; text-decoration: none; }
+.pill { --fs: 26.7; border-radius: .49em; }
+
+.tool-name {
+  --fs: 30.8;
+  line-height: 1.11;
+  text-align: center;
+}
+
+.caption {
+  --fs: 25;
+  font-family: var(--spartan);
+  font-weight: 700;
+  line-height: 1.11;
+  text-align: center;
+}
+
+.contact {
+  font-family: var(--spartan);
+  font-weight: 700;
+  line-height: 1.11;
+}
+
+.name-heading {
+  --fs: 41.3;
+  letter-spacing: .095em;
+  padding-left: .095em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.connect { --fs: 26.7; letter-spacing: .095em; }
+.line { --fs: 18.6; letter-spacing: .095em; white-space: nowrap; }
+
+.line a {
+  text-decoration: underline 1px rgb(24 38 88 / .35);
+  text-underline-offset: .2em;
+}
+
+.line a:hover { text-decoration-color: currentColor; }
+
+.socials {
+  --fs: 34;
+  display: flex;
+  justify-content: space-between;
+}
+
+.socials img { width: 1em; height: 1em; }
+
+/* Pictures and videos */
+.stage img.at,
+video { object-fit: cover; }
+.crop-top { object-position: top; }
+video { background: #000; }
+
+.polaroid { position: relative; }
+.polaroid picture,
+.polaroid .photo { display: block; width: 100%; height: auto; }
+
+.polaroid .photo {
+  transform: rotate(4.56deg);
+  filter: drop-shadow(0 3px 5px rgb(60 40 10 / .22));
+}
+
+.polaroid .clip {
+  position: absolute;
+  left: 15.88%;  /* 47 of 296 */
+  top: -13.18%;  /* -53 of 402 */
+  width: 21.28%; /* 63 of 296 */
+  height: auto;
+  transform: rotate(3.7deg);
+}
+
+/* Wide screens: the original layout, scaled to the window ----------------------------- */
+@media (min-width: 761px) {
+  .stage {
+    --u: calc(min(100cqw, 1920px) / 1366);
+    position: relative;
+    width: calc(1366 * var(--u));
+    height: calc(var(--sh, 768) * var(--u));
+    margin-inline: auto;
+  }
+
+  /* An item without --h keeps its own height, and one without --fs inherits its font size. */
+  .stage .at {
+    position: absolute;
+    left: calc(var(--x) * var(--u));
+    top: calc(var(--y) * var(--u));
+    width: calc(var(--w) * var(--u));
+    height: calc(var(--h) * var(--u));
+    font-size: calc(var(--fs) * var(--u));
+  }
+
+  .contact .line { font-size: max(calc(var(--fs) * var(--u)), 12px); }
+}
+
+/* Phones: one column ------------------------------------------------------------------ */
+@media (max-width: 760px) {
+  main > section:not(.hero) { padding-block: 44px; }
+
+  .stage {
+    max-width: 560px;
+    margin-inline: auto;
+    padding-inline: 16px;
+  }
+
+  .designs,
+  .videos { display: grid; gap: 16px; }
+
+  /* Hero: its own small stage, 390 units wide */
+  .hero .stage {
+    --m: calc(min(100cqw, 560px) / 390);
+    position: relative;
+    width: calc(390 * var(--m));
+    max-width: none;
+    padding: calc(311 * var(--m)) calc(16 * var(--m)) calc(36 * var(--m));
+  }
+
+  .band, .title, .name, .jude { position: absolute; }
+  .band  { left: calc(12 * var(--m)); top: calc(16 * var(--m)); width: calc(366 * var(--m)); }
+  .title { left: calc(10 * var(--m)); top: calc(115 * var(--m)); width: calc(172 * var(--m)); }
+  .name  { left: calc(10 * var(--m)); top: calc(243 * var(--m)); width: calc(181 * var(--m)); }
+  .jude  { left: calc(167 * var(--m)); top: calc(40 * var(--m)); width: calc(205 * var(--m)); height: calc(271 * var(--m)); }
+
+  .services { display: grid; gap: calc(10 * var(--m)); }
+  .services li { height: calc(46 * var(--m)); font-size: calc(19 * var(--m)); }
+
+  /* Headings */
+  .heading {
+    --ls: .25em;
+    font-size: min(22px, 5.6cqw);
+    margin-bottom: 24px;
+  }
+
+  /* About */
+  .about-text { font-size: 16px; line-height: 1.55; }
+  .about-text p + p { margin-top: 1em; }
+
+  .button {
+    width: max-content;
+    margin: 28px auto 0;
+    padding: 12px 26px;
+    font-size: 18px;
+  }
+
+  /* Tools */
+  .tool-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px 16px;
+  }
+
+  .tool-list li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .tool-list img { width: 104px; height: auto; }
+  .tool-name { font-size: 17px; }
+
+  /* Designs and videos */
+  .squares,
+  .emails,
+  .pages,
+  .shorts,
+  .film { display: grid; gap: 16px; align-items: start; }
+
+  .emails,
+  .pages,
+  .shorts { grid-template-columns: 1fr 1fr; }
+
+  .shorts .heading { grid-column: 1 / -1; }
+
+  .designs img,
+  .videos video { width: 100%; height: auto; }
+
+  .shorts video { aspect-ratio: 9 / 16; }
+  .film video { aspect-ratio: 16 / 9; }
+
+  /* Thumbnails */
+  .thumbs figure { display: grid; gap: 12px; }
+  .thumbs figure + figure { margin-top: 28px; }
+  .thumbs img { width: 100%; height: auto; }
+  .caption { font-size: 17px; }
+
+  /* Contact */
+  .contact { text-align: center; }
+  .mini-band { width: 150px; margin: 0 auto 22px; }
+  .name-heading { font-size: min(21px, 5.2cqw); }
+
+  .pill {
+    width: max-content;
+    max-width: 100%;
+    margin: 12px auto 0;
+    padding: 8px 14px;
+    font-size: min(15px, 3.9cqw);
+    border-radius: 8px;
+  }
+
+  .details {
+    display: grid;
+    justify-items: center;
+    gap: 10px;
+    margin-top: 36px;
+  }
+
+  .connect { font-size: 21px; margin-bottom: 4px; }
+  .line { font-size: 15px; white-space: normal; }
+
+  .socials {
+    font-size: 30px;
+    gap: 24px;
+    margin-block: 10px;
+  }
+
+  .polaroid { width: min(240px, 66%); margin: 72px auto 8px; }
+}
+
+/* Motion -------------------------------------------------------------------------------
+   The hero animates on load (CSS only). The other sections animate once when they scroll
+   into view: motion.js marks each item with data-a and adds .on. Without the script, or
+   for visitors who prefer reduced motion, everything simply shows. */
+
+.sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.w { white-space: nowrap; }
+
+/* The hero band: a navy box with the letters as a separate layer, so they can rise into it */
+.band {
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 1267 / 216;
+  background: var(--navy);
+}
+
+.band img { width: 100%; height: 100%; }
+
+/* Service words rise inside their own line */
+.services .w {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding: 0 .1em .15em;
+  margin: 0 -.1em -.15em;
+}
+
+.services .w > span { display: inline-block; }
+
+.button { overflow: hidden; }
+
+/* Hover */
+.button { transition: background-color .25s, translate .25s, box-shadow .25s; }
+.button:hover { background: #22357a; translate: 0 -2px; box-shadow: 0 6px 16px rgb(24 38 88 / .28); }
+.line a { transition: text-decoration-color .2s; }
+.socials img { transition: translate .2s, scale .2s; }
+.socials a:hover img { translate: 0 -3px; scale: 1.12; }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Hero, on load */
+  .band img { animation: rise .55s cubic-bezier(.33, 1, .68, 1) .25s both; }
+  .services .w > span { animation: rise .5s cubic-bezier(.22, 1, .36, 1) var(--d) both; }
+  .title {
+    --t0: calc(-80 * var(--u, .6px)) 0;
+    animation: fade-in .5s cubic-bezier(.5, 1, .89, 1) .45s both;
+  }
+  .name {
+    --t0: calc(-80 * var(--u, .6px)) 0;
+    animation: fade-in 1s cubic-bezier(.25, .6, .35, 1) 1.05s both;
+  }
+  .jude { animation: brush .7s linear 1.5s backwards; }
+
+  /* Other sections */
+  [data-a]:not(.on) { visibility: hidden; }
+  [data-a].on { animation: show 1ms var(--d) backwards; }
+
+  [data-a=pan]   { --t0: calc(-80 * var(--u, .6px)) 0; }
+  [data-a=pan-r] { --t0: calc(80 * var(--u, .6px)) 0; }
+  [data-a=pan-u] { --t0: 0 calc(80 * var(--u, .6px)); }
+  [data-a=pan-d] { --t0: 0 calc(-80 * var(--u, .6px)); }
+  [data-a^=pan].on { animation: fade-in .5s cubic-bezier(.5, 1, .89, 1) var(--d) both; }
+
+  [data-a=slide-l] { --t0: -100% 0; }
+  [data-a=slide-r] { --t0: 100% 0; }
+  [data-a=slide-u] { --t0: 0 100%; }
+  [data-a^=slide].on { animation: snap-in .48s cubic-bezier(.22, 1, .36, 1) var(--d) both; }
+
+  [data-a=thumb-l] { --t0: calc(-76 * var(--u, .6px)) 0; }
+  [data-a=thumb-r] { --t0: calc(152 * var(--u, .6px)) 0; }
+  [data-a^=thumb].on {
+    animation: fade .55s linear calc(var(--d) + .2s) both,
+               drift 4s cubic-bezier(.2, .6, .3, 1) var(--d) both;
+  }
+
+  [data-a=brush].on { animation: brush 1.1s linear var(--d) backwards; }
+  [data-a=wipe].on { animation: wipe .5s cubic-bezier(.45, 0, .25, 1) var(--d) both; }
+  [data-a=pop].on { animation: pop .5s ease-out var(--d) both; }
+
+  .polaroid .clip { --t0: calc(-1182 * var(--u, .6px)) calc(-685 * var(--u, .6px)); --r0: -50.9deg; }
+  .polaroid picture { --t0: calc(-1116 * var(--u, .6px)) calc(788 * var(--u, .6px)); --r0: -140deg; }
+  [data-a=fly].on { animation: snap-in .5s cubic-bezier(.25, 1, .5, 1) var(--d) both; }
+
+  /* Text: words drop in, letters type on or drop in one by one */
+  [data-a^=words] .w { display: inline-block; --t0: 0 -.5em; }
+  [data-a=words-up] .w { --t0: 0 .5em; }
+  [data-a^=words].on .w { animation: snap-in .72s cubic-bezier(.3, 1.25, .5, 1) calc(var(--d) + var(--i) * 84ms) both; }
+
+  [data-a=type].on .c { animation: show 1ms calc(var(--d) + var(--i) * var(--step)) backwards; }
+
+  [data-a=drop] .c,
+  [data-a=tumble] .c { display: inline-block; }
+  [data-a=drop].on .c { animation: drop .45s ease-out calc(var(--d) + var(--i) * var(--step)) both; }
+  [data-a=tumble].on .c { animation: tumble .49s calc(var(--d) + var(--i) * var(--step)) both; }
+}
+
+/* The page clips anything that flies in from outside it */
+main { overflow: clip; }
+
+@keyframes show { from { opacity: 0; } }
+@keyframes fade { from { opacity: 0; } }
+@keyframes rise { from { translate: 0 115%; } }
+@keyframes fade-in { from { translate: var(--t0, 0 0); opacity: 0; } }
+@keyframes snap-in {
+  0% { translate: var(--t0, 0 0); rotate: var(--r0, 0deg); opacity: 0; }
+  1% { opacity: 1; }
+}
+@keyframes drift { from { translate: var(--t0, 0 0); } }
+@keyframes wipe { from { clip-path: inset(0 100% 0 0); } }
+@keyframes pop {
+  0% { scale: 0; }
+  35% { scale: 1.27; }
+  55% { scale: .94; }
+  75% { scale: 1.02; }
+  100% { scale: 1; }
+}
+@keyframes drop {
+  0% { translate: 0 -.27em; opacity: 0; }
+  1% { opacity: 1; }
+  45% { translate: 0 .07em; }
+  100% { translate: 0 0; }
+}
+@keyframes tumble {
+  0% { translate: 0 -1.4em; animation-timing-function: cubic-bezier(.45, 0, .55, 1); }
+  43% { translate: 0 1.4em; }
+  43.1% { translate: 0 -1.2em; animation-timing-function: cubic-bezier(.22, 1, .36, 1); }
+  100% { translate: 0 0; }
+}
+@keyframes brush {
+  0% { -webkit-mask-image: linear-gradient(90deg, #000 40%, transparent 48%), linear-gradient(270deg, #000 40%, transparent 48%), linear-gradient(90deg, #000 40%, transparent 48%), linear-gradient(270deg, #000 40%, transparent 48%), linear-gradient(90deg, #000 40%, transparent 48%), linear-gradient(270deg, #000 40%, transparent 48%); mask-image: linear-gradient(90deg, #000 40%, transparent 48%), linear-gradient(270deg, #000 40%, transparent 48%), linear-gradient(90deg, #000 40%, transparent 48%), linear-gradient(270deg, #000 40%, transparent 48%), linear-gradient(90deg, #000 40%, transparent 48%), linear-gradient(270deg, #000 40%, transparent 48%); -webkit-mask-size: 250% 18%; mask-size: 250% 18%; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: 100% 0%, 0% 20%, 100% 40%, 0% 60%, 100% 80%, 0% 100%; mask-position: 100% 0%, 0% 20%, 100% 40%, 0% 60%, 100% 80%, 0% 100%; }
+  10% { -webkit-mask-position: 64% 0%, 0% 20%, 100% 40%, 0% 60%, 100% 80%, 0% 100%; mask-position: 64% 0%, 0% 20%, 100% 40%, 0% 60%, 100% 80%, 0% 100%; }
+  20% { -webkit-mask-position: 36% 0%, 36% 20%, 100% 40%, 0% 60%, 100% 80%, 0% 100%; mask-position: 36% 0%, 36% 20%, 100% 40%, 0% 60%, 100% 80%, 0% 100%; }
+  30% { -webkit-mask-position: 16% 0%, 64% 20%, 64% 40%, 0% 60%, 100% 80%, 0% 100%; mask-position: 16% 0%, 64% 20%, 64% 40%, 0% 60%, 100% 80%, 0% 100%; }
+  40% { -webkit-mask-position: 4% 0%, 84% 20%, 36% 40%, 36% 60%, 100% 80%, 0% 100%; mask-position: 4% 0%, 84% 20%, 36% 40%, 36% 60%, 100% 80%, 0% 100%; }
+  50% { -webkit-mask-position: 0% 0%, 96% 20%, 16% 40%, 64% 60%, 64% 80%, 0% 100%; mask-position: 0% 0%, 96% 20%, 16% 40%, 64% 60%, 64% 80%, 0% 100%; }
+  60% { -webkit-mask-position: 0% 0%, 100% 20%, 4% 40%, 84% 60%, 36% 80%, 36% 100%; mask-position: 0% 0%, 100% 20%, 4% 40%, 84% 60%, 36% 80%, 36% 100%; }
+  70% { -webkit-mask-position: 0% 0%, 100% 20%, 0% 40%, 96% 60%, 16% 80%, 64% 100%; mask-position: 0% 0%, 100% 20%, 0% 40%, 96% 60%, 16% 80%, 64% 100%; }
+  80% { -webkit-mask-position: 0% 0%, 100% 20%, 0% 40%, 100% 60%, 4% 80%, 84% 100%; mask-position: 0% 0%, 100% 20%, 0% 40%, 100% 60%, 4% 80%, 84% 100%; }
+  90% { -webkit-mask-position: 0% 0%, 100% 20%, 0% 40%, 100% 60%, 0% 80%, 96% 100%; mask-position: 0% 0%, 100% 20%, 0% 40%, 100% 60%, 0% 80%, 96% 100%; }
+  100% { -webkit-mask-image: linear-gradient(90deg, #000 40%, transparent 48%), linear-gradient(270deg, #000 40%, transparent 48%), linear-gradient(90deg, #000 40%, transparent 48%), linear-gradient(270deg, #000 40%, transparent 48%), linear-gradient(90deg, #000 40%, transparent 48%), linear-gradient(270deg, #000 40%, transparent 48%); mask-image: linear-gradient(90deg, #000 40%, transparent 48%), linear-gradient(270deg, #000 40%, transparent 48%), linear-gradient(90deg, #000 40%, transparent 48%), linear-gradient(270deg, #000 40%, transparent 48%), linear-gradient(90deg, #000 40%, transparent 48%), linear-gradient(270deg, #000 40%, transparent 48%); -webkit-mask-size: 250% 18%; mask-size: 250% 18%; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: 0% 0%, 100% 20%, 0% 40%, 100% 60%, 0% 80%, 100% 100%; mask-position: 0% 0%, 100% 20%, 0% 40%, 100% 60%, 0% 80%, 100% 100%; }
+}
